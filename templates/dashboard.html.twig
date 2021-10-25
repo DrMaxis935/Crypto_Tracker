@@ -1,0 +1,10 @@
+{% extends "base.html.twig" %}
+{% block title %}Dashboard{% endblock %}
+{% block body %}
+    <h1>Dashboard {{ api_url }}</h1>
+    <ul>
+        {% for currency in currencies %}
+            <li>{{ currency.name }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
