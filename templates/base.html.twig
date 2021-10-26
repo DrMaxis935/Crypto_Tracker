@@ -1,5 +1,7 @@
+{% apply inline_css(source("style.css")) %}
 <!DOCTYPE html>
 <html>
+
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}Crypto Tracker{% endblock %}</title>
@@ -9,6 +11,12 @@
         {% endblock %}
     </head>
     <body>
-        {% block body %}{% endblock %}
+        <div>
+            {% block header %}{% endblock %}
+        </div>
+        <main>
+            {% block body %}{% endblock %}
+        </main>
     </body>
 </html>
+{% endapply %}
