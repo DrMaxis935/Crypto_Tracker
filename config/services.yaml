@@ -1,20 +1,12 @@
-# This file is the entry point to configure your own services.
-# Files in the packages/ subdirectory configure your dependencies.
-
-# Put parameters here that don't need to change on each machine where the app is deployed
-# https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
   coinmarketcap.api.url: "%env(COINMARKETCAP_API_URL)%"
   coinmarketcap.api.token: "%env(COINMARKETCAP_API_TOKEN)%"
 
 services:
-  # default configuration for services in *this* file
   _defaults:
-    autowire: true # Automatically injects dependencies in your services.
-    autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+    autowire: true
+    autoconfigure: true
 
-  # makes classes in src/ available to be used as services
-  # this creates a service per class whose id is the fully-qualified class name
   App\:
     resource: "../src/"
     exclude:
@@ -23,5 +15,18 @@ services:
       - "../src/Kernel.php"
       - "../src/Tests/"
 
-  # add more service definitions when explicit configuration is needed
-  # please note that last definitions always *replace* previous ones
+doctrine:
+  dbal:
+    default_connection: crypto_tracker
+    connections:
+      crypto_tracker:
+        server_version: 11
+        driver: pdo_pgsql
+        url: "%env(DATABASE_URL)%"
+  orm:
+    default_entity_manager: default
+    entity_managers:
+      default:
+        connection: crypto_tracker
+        naming_strategy: doctrine.orm.naming_strategy.underscore
+        auto_mapping: true
