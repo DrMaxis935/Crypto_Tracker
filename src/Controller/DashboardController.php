@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Wallet;
+use App\Repository\WalletRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -21,6 +23,8 @@ class DashboardController extends AbstractController
      */
     public function dashboard(): Response
     {
+        $this->getDoctrine()->getRepository(Wallet::class)->createWallet();
+
         $api_url = $this->getParameter('coinmarketcap.api.url');
         $token = $this->getParameter('coinmarketcap.api.token');
 

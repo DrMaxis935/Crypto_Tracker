@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Uid\Uuid;
 
 /**
  * Class Operation
@@ -20,15 +21,7 @@ class Operation
      *
      * @var string
      */
-    protected string $id;
-
-    /**
-     * @ORM\Id
-     * @ORM\Column(name="name", type="string")
-     *
-     * @var string
-     */
-    protected string $name;
+    private string $id;
 
     /**
      * @ORM\Id
@@ -36,7 +29,7 @@ class Operation
      *
      * @var string
      */
-    protected string $operation_type;
+    private string $operationType;
 
     /**
      * @ORM\Id
@@ -44,15 +37,26 @@ class Operation
      *
      * @var integer
      */
-    protected string $amout;
+    private int $amount;
 
     /**
-     * @ORM\Id
-     * @ORM\Column(name="price", type="integer")
-     *
-     * @var integer
+     * @ORM\ManyToOne(targetEntity="Wallet")
+     * @ORM\JoinColumn(name="wallet__id", referencedColumnName="id")
+     * @var Wallet
      */
-    protected string $price;
+    private Wallet $wallet;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Currency")
+     * @ORM\JoinColumn(name="currency__id", referencedColumnName="id")
+     * @var Currency
+     */
+    private Currency $currency;
+
+    public function __construct()
+    {
+        $this->id = Uuid::v4();
+    }
 
     /**
      * @return string
@@ -65,29 +69,9 @@ class Operation
     /**
      * @return string
      */
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    /**
-     * @param string
-     *
-     * @return $this
-     */
-    public function setName($name): static
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-     /**
-     * @return string
-     */
     public function getOperationType(): string
     {
-        return $this->operation_type;
+        return $this->operationType;
     }
 
     /**
@@ -97,15 +81,15 @@ class Operation
      */
     public function setOperationType($operation_type): static
     {
-        $this->operation_type = $operation_type;
+        $this->operationType = $operation_type;
 
         return $this;
     }
 
-     /**
+    /**
      * @return integer
      */
-    public function getAmount(): integer
+    public function getAmount(): int
     {
         return $this->amount;
     }
@@ -122,22 +106,42 @@ class Operation
         return $this;
     }
 
-       /**
-     * @return integer
+    /**
+     * @return Wallet
      */
-    public function getPrice(): integer
+    public function getWallet(): Wallet
     {
-        return $this->price;
+        return $this->wallet;
     }
 
-    /**
-     * @param integer
+    /**z
+     * @param Wallet
      *
      * @return $this
      */
-    public function setPrice($price): static
+    public function setWallet($wallet): static
     {
-        $this->price = $price;
+        $this->wallet = $wallet;
+
+        return $this;
+    }
+
+    /**
+     * @return Currency
+     */
+    public function getCurrency(): Currency
+    {
+        return $this->currency;
+    }
+
+    /**z
+     * @param Currency
+     *
+     * @return $this
+     */
+    public function setCurrency($currency): static
+    {
+        $this->currency = $currency;
 
         return $this;
     }

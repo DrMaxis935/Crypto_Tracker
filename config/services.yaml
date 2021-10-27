@@ -17,16 +17,18 @@ services:
 
 doctrine:
   dbal:
-    default_connection: crypto_tracker
+    default_connection: crypto_tracker_BDD
     connections:
-      crypto_tracker:
+      crypto_tracker_BDD:
         server_version: 11
         driver: pdo_pgsql
         url: "%env(DATABASE_URL)%"
+    types:
+      uuid: Symfony\Bridge\Doctrine\Types\UuidType
+
   orm:
-    default_entity_manager: default
+    default_entity_manager: postgres
     entity_managers:
-      default:
-        connection: crypto_tracker
+      postgres:
+        connection: crypto_tracker_BDD
         naming_strategy: doctrine.orm.naming_strategy.underscore
-        auto_mapping: true

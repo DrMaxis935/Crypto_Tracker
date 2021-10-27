@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Uid\Uuid;
 
 /**
  * Class Wallet
@@ -20,30 +21,50 @@ class Wallet
      *
      * @var string
      */
-    protected string $id;
+    private string $id;
 
     /**
      * @ORM\Id
-     * @ORM\Column(name="userName", type="uuid")
+     * @ORM\Column(name="username", type="string")
      *
      * @var string
      */
-    protected string $username;
+    private string $username;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Operation", mappedBy="operations")
+     *
+     * @var Operation[]
+     */
+    private array $operations;
+
+    public function __construct()
+    {
+        $this->id = Uuid::v4();
+    }
 
     /**
      * @return string
      */
-    public function getuserId(): string
+    public function getId(): string
     {
         return $this->id;
     }
 
-       /**
+    /**
      * @return string
      */
-    public function getUserName(): string
+    public function getUsername(): string
     {
         return $this->username;
+    }
+
+    /**
+     * @return Operation[]
+     */
+    public function getOperations(): array
+    {
+        return $this->operations;
     }
 
     /**
@@ -51,7 +72,7 @@ class Wallet
      *
      * @return $this
      */
-    public function setUserName($username): static
+    public function setUsername($username): static
     {
         $this->username = $username;
 
